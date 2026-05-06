@@ -243,12 +243,12 @@ async function run() {
       res.send(result);
     });
 
-    // Donate
+    // Donate section
     app.patch("/donate", verifyFBToken, async (req, res) => {
       const { status, id } = req.query;
       const query = { _id: new ObjectId(id) };
       const update = {
-        $set: {
+        $set: { 
           donationStatus: status,
         },
       };
