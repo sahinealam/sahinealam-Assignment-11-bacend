@@ -51,8 +51,8 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-    await client.connect();
-    // Send a ping to confirm a successful connection
+    // await client.connect();
+
     const database = client.db("assingment11");
     const usersCollection = database.collection("users");
     const requestCollection = database.collection("request");
@@ -63,7 +63,7 @@ async function run() {
       userInfo.createdAt = new Date();
       userInfo.role = "donor";
       userInfo.status = "active";
-      const result = await usersCollection.insertOne(userInfo);
+      const result = await userCollection.insertOne(userInfo);
       res.send(result);
     });
 
@@ -72,13 +72,13 @@ async function run() {
       const size = Number(req.query.size);
       const page = Number(req.query.page);
 
-      const result = await usersCollection
+      const result = await userCollection
         .find()
         .limit(size)
         .skip(size * page)
         .toArray();
 
-      const totaluser = await usersCollection.countDocuments();
+      const totaluser = await userCollection.countDocuments();
 
       res.send({ user: result, totaluser });
     });
@@ -86,7 +86,7 @@ async function run() {
     app.get("/user/role/:email", async (req, res) => {
       const { email } = req.params;
       const query = { email: email };
-      const result = await usersCollection.findOne(query);
+      const result = await userCollection.findOne(query);
       console.log(result);
       res.send(result);
     });
@@ -101,7 +101,7 @@ async function run() {
           status: status,
         },
       };
-      const result = await usersCollection.updateOne(query, updateStatus);
+      const result = await userCollection.updateOne(query, updateStatus);
       res.send(result);
     });
 
@@ -116,7 +116,7 @@ async function run() {
         },
       };
 
-      const result = await usersCollection.updateOne(query, updateRole);
+      const result = await userCollection.updateOne(query, updateRole);
       res.send(result);
     });
 
@@ -124,7 +124,7 @@ async function run() {
     app.post("/requests", verifyFBToken, async (req, res) => {
       const data = req.body;
       data.createdAt = new Date();
-      const result = await requestsCollection.insertOne(data);
+      const result = await reequestsCollection.insertOne(data);
       res.send(result);
     });
 
@@ -141,13 +141,13 @@ async function run() {
         query.donationStatus = status;
       }
 
-      const result = await requestCollection
+      const result = await reequestsCollection
         .find(query)
         .skip(page * size)
         .limit(size)
         .toArray();
 
-      const totalRequest = await requestCollection.countDocuments(query);
+      const totalRequest = await reequestsCollection.countDocuments(query);
 
       res.send({ request: result, totalRequest });
     });
@@ -163,20 +163,20 @@ async function run() {
         query.donationStatus = status;
       }
 
-      const result = await requestCollection
+      const result = await reequestsCollection
         .find(query)
         .limit(size)
         .skip(size * page)
         .toArray();
 
-      const totalRequest = await requestCollection.countDocuments(query);
+      const totalRequest = await reequestsCollection.countDocuments(query);
 
       res.send({ request: result, totalRequest });
     });
 
     // Recent Request
     app.get("/recent-request", verifyFBToken, async (req, res) => {
-      const result = await requestCollection
+      const result = await reequestsCollection
         .find()
         .sort({ createdAt: -1 })
         .limit(3)
@@ -188,7 +188,7 @@ async function run() {
     app.delete("/Delete-request", verifyFBToken, async (req, res) => {
       const id = req.query.id;
       const query = { _id: new ObjectId(id) };
-      const result = await requestCollection.deleteOne(query);
+      const result = await reequestsCollection.deleteOne(query);
       res.send(result);
     });
 
@@ -196,7 +196,7 @@ async function run() {
     app.get("/Dashboard/view-request/:id", async (req, res) => {
       const { id } = req.params;
       const query = { _id: new ObjectId(id) };
-      const result = await requestCollection.findOne(query);
+      const result = await reequestsCollection.findOne(query);
       res.send(result);
     });
 
@@ -209,7 +209,7 @@ async function run() {
           donationStatus: status,
         },
       };
-      const result = await requestCollection.updateOne(query, update);
+      const result = await reequestsCollection.updateOne(query, update);
       res.send(result);
     });
 
@@ -224,14 +224,14 @@ async function run() {
           donationStatus: status,
         },
       };
-      const result = await requestCollection.updateOne(query, update);
+      const result = await reequestsCollection.updateOne(query, update);
       res.send(result);
     });
 
     // Donation Request
     app.get("/donation-page", async (req, res) => {
-      const query = { donation_status: "pending" };
-      const result = await requestCollection.find(query).toArray();
+      const query = { donationStatus: "pending" };
+      const result = await reequestsCollection.find(query).toArray();
       res.send(result);
     });
 
@@ -239,7 +239,7 @@ async function run() {
     app.get("/donation-details/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
-      const result = await requestCollection.findOne(query);
+      const result = await reequestsCollection.findOne(query);
       res.send(result);
     });
 
@@ -252,7 +252,7 @@ async function run() {
           donationStatus: status,
         },
       };
-      const result = await requestCollection.updateOne(query, update);
+      const result = await reequestsCollection.updateOne(query, update);
       res.send(result);
     });
 
