@@ -120,11 +120,11 @@ async function run() {
       res.send(result);
     });
 
-    // Request
+    // Request api 
     app.post("/requests", verifyFBToken, async (req, res) => {
       const data = req.body;
       data.createdAt = new Date();
-      const result = await requestsCollection.insertOne(data);
+      const result = await requestCollection.insertOne(data);
       res.send(result);
     });
 
@@ -243,12 +243,12 @@ async function run() {
       res.send(result);
     });
 
-    // Donate section
+    // Donate
     app.patch("/donate", verifyFBToken, async (req, res) => {
       const { status, id } = req.query;
       const query = { _id: new ObjectId(id) };
       const update = {
-        $set: { 
+        $set: {
           donationStatus: status,
         },
       };
