@@ -105,7 +105,7 @@ async function run() {
       res.send(result);
     });
 
-    // role change
+    // role change api
     app.patch("/update/role", verifyFBToken, async (req, res) => {
       const { email, role } = req.query;
 
@@ -128,7 +128,7 @@ async function run() {
       res.send(result);
     });
 
-    // My Request api
+    // My Request api create
     app.get("/my-request", verifyFBToken, async (req, res) => {
       const email = req.decoded_email;
       const page = Number(req.query.page);
