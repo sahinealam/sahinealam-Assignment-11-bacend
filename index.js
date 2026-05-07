@@ -184,7 +184,7 @@ async function run() {
       res.send(result);
     });
 
-    // delete request
+    // delete request api
     app.delete("/Delete-request", verifyFBToken, async (req, res) => {
       const id = req.query.id;
       const query = { _id: new ObjectId(id) };
