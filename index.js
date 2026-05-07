@@ -82,7 +82,7 @@ async function run() {
 
       res.send({ user: result, totaluser });
     });
-
+    // user role api
     app.get("/user/role/:email", async (req, res) => {
       const { email } = req.params;
       const query = { email: email };
@@ -120,7 +120,7 @@ async function run() {
       res.send(result);
     });
 
-    // Request api 
+    // Request api
     app.post("/requests", verifyFBToken, async (req, res) => {
       const data = req.body;
       data.createdAt = new Date();
@@ -152,7 +152,7 @@ async function run() {
       res.send({ request: result, totalRequest });
     });
 
-    // All Request api 
+    // All Request api
     app.get("/all-request", verifyFBToken, async (req, res) => {
       const size = Number(req.query.size);
       const page = Number(req.query.page);
