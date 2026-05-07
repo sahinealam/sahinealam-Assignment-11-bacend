@@ -19,7 +19,7 @@ const serviceAccount = JSON.parse(decoded);
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
-
+//  verify firebase token
 const verifyFBToken = async (req, res, next) => {
   const token = req.headers.authorization;
 
