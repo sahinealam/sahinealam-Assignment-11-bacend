@@ -38,7 +38,7 @@ const verifyFBToken = async (req, res, next) => {
 };
 
 const uri =
-  "mongodb+srv://assingment-11:2nZFbx8h_BssrPz@cluster0.qmqsv1k.mongodb.net/?appName=Cluster0";
+  `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.qmqsv1k.mongodb.net/?appName=Cluster0`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -184,7 +184,7 @@ async function run() {
       res.send(result);
     });
 
-    // delete request api
+    // delete request
     app.delete("/Delete-request", verifyFBToken, async (req, res) => {
       const id = req.query.id;
       const query = { _id: new ObjectId(id) };
@@ -200,7 +200,7 @@ async function run() {
       res.send(result);
     });
 
-    // Done Request api
+    // Done Request
     app.patch("/done-request", verifyFBToken, async (req, res) => {
       const { id, status } = req.query;
       const query = { _id: new ObjectId(id) };
