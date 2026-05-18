@@ -51,7 +51,7 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-    await client.connect();
+    
     // Send a ping to confirm a successful connection
     const database = client.db("assingment11");
     const usersCollection = database.collection("users");
@@ -306,7 +306,7 @@ async function run() {
       });
       res.send({ url: session.url });
     });
-
+// success payment
     app.post("/success-payment", async (req, res) => {
       const { session_id } = req.query;
       const session = await stripe.checkout.sessions.retrieve(session_id);
